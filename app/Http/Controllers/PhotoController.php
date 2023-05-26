@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 use App\Models\Gallery;
+use App\Models\Daycare;
 use Illuminate\Http\Request;
 
 class PhotoController extends Controller

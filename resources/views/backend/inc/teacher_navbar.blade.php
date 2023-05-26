@@ -39,13 +39,13 @@
 
             <form action="{{ route('teacher.logout') }}" method="POST">
                 @csrf
-                <li class="log-btn">
-                    <button type="submit" onclick="event.preventDefault(); this.closest('form').submit();">
+                @method('POST')
+                <li class="sec-btn">
+                    <button type="submit" style="text-decoration: none; background: none; border: none; cursor: pointer;">
                         Logout
                     </button>
                 </li>
             </form>
-
 
 
           </div>

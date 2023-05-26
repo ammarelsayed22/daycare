@@ -13,6 +13,7 @@ use Illuminate\View\View;
 use App\Models\Teacher;
 use App\Models\daycare;
 use App\Models\User;
+use App\Models\Dad;
 use App\Models\Gallery;
 use App\Models\Comment;
 
@@ -205,6 +206,19 @@ $daycareId = Auth::guard('teacher')->user()->daycare_id;
         $classrooms = Classroom::all();
         return view('classrooms.index', compact('classrooms'));
     }
+    /////////////////dad////////////**
+    public function indexdad(Daycare $daycare)
+{
+      $daycareId = auth()->user()->daycare_id;
+         $teachers = Teacher::where('daycare_id' , $daycareId)->get();
+    $gallerys =Gallery::where('daycare_id' , $daycareId)->get();
+    $comments = Comment::where('daycare_id' , $daycareId)->get();
+     $dads = Dad::where('daycare_id' , $daycareId)->get();
+
+
+           return view('backend.dad.indexdad', compact('dads','teachers','gallerys','comments'));
+    }
+
 }
 
 

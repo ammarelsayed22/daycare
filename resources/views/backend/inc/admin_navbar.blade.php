@@ -34,14 +34,18 @@
               <li class="nav-item na"><a href="#" class="nav-link">Contact</a></li>
             </ul>
 
-        </ul>
+
+
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
-                <li class="nav-item na">
-                    <button type="submit">Logout</button>
+                @method('POST')
+                <li class="sec-btn">
+                    <button type="submit" style="text-decoration: none; background: none; border: none; cursor: pointer;">
+                        Logout
+                    </button>
                 </li>
             </form>
-        </ul>
 
 
+ </ul>
           </div>

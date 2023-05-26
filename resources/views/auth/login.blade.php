@@ -5,6 +5,7 @@
         <div class='photo'><img src={{ asset('/assets/imgs/logo.jpg') }} alt="logo" /></div>
 
       </a>
+      <a href="/daycare" class="form-btn up log" style="width: 100%; font-weight: 500;">Add Nursery</a>
 
 
     <div class='login-sec py-5'>

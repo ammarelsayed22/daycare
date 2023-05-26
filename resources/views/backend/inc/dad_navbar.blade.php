@@ -29,16 +29,20 @@
               </li>
 
               <li class="nav-item na"><a href="{{ route('dad.contact') }}" class="nav-link">Contact</a></li>
-            </ul>
 
 
-                <form action="{{ route('dad.logout') }}" method="POST">
-                    @csrf
-                    <li class="log-btn">
-                        <a href="{{ route('dad.logout') }}" onclick="event.preventDefault(); this.closest('form').submit();">Logout</a>
-                    </li>
-                </form>
 
+
+            <form action="{{ route('dad.logout') }}" method="POST">
+                @csrf
+                @method('POST')
+                <li class="sec-btn">
+                    <button type="submit" style="text-decoration: none; background: none; border: none; cursor: pointer;">
+                        Logout
+                    </button>
+                </li>
+            </form>
+</ul>
 
 
           </div>
