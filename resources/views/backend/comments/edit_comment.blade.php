@@ -1,5 +1,19 @@
-@extends('backend.admin')
-@section('content')
+
+@include('backend.inc.header')
+<body>
+  <div class="navbar navbar-expand-md text-danger">
+        <div class="container">
+          <a to="/" class='navbar-brand'>
+            <div class='logo'><img src="{{ asset('assets/image/logo.jpg') }} " alt="logo" /></div>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainmenu">
+            <span class="navbar-toggler-icon" />
+          </button>
+          @include('backend.inc.admin_navbar')
+        </div>
+
+  </div>
+
     <h1 class="text-center "><b>update comment</b> </h1>
 
 
@@ -42,4 +56,4 @@
 
 
     </div>
-@endsection
+@include('backend.inc.admin_footer')

@@ -27,6 +27,7 @@ class DaycareController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'id' => 'required|integer|unique:daycares',
             'name' => 'required|string',
             'description' => 'required|string',
             'location' => 'required|string',
@@ -34,18 +35,19 @@ class DaycareController extends Controller
         ]);
 
         Daycare::create([
+            'id' => $request->input('id'),
             'name' => $request->input('name'),
             'description' => $request->input('description'),
             'location' => $request->input('location'),
             'phone_number' => $request->input('phone_number'),
         ]);
 
-    return redirect()->back()->with('success', 'Daycare added successfully.');
+    return redirect()->route('login')->with('success', 'Daycare added successfully.');
     }
 
      public function createtimetable()
     {
-        return view('backend.create');
+        return view('backend.timetable.create');
     }
 
     public function storetimetable(Request $request)
@@ -64,13 +66,12 @@ class DaycareController extends Controller
 
         Timetable::create($request->all());
 
-        return redirect()->route('timetable.index')->with('success', 'Timetable entry added successfully.');
+        return redirect()->route('auth.timetable.index')->with('success', 'Timetable entry added successfully.');
     }
     public function indextimetable()
 {
     $timetableEntries = Timetable::all();
 
-    return view('backend.index', compact('timetableEntries'));
+    return view('backend.timetable.index', compact('timetableEntries'));
 }
-
 }

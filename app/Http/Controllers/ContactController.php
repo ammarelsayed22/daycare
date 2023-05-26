@@ -12,19 +12,18 @@ class ContactController extends Controller
 
     public function index()
     {
-        return view('frontend.contact');
+
+        return view('backend.dad.contact');
     }
 
-    public function all_contacts()
+    public function all_contacts(Daycare $daycare)
     {
-        $contacts = Contact::all();
+        $daycareId = Auth::guard('dad')->user()->daycare_id;
+        $Contact = Contact::where('daycare_id' , $daycareId)->get();
+
         return view('backend.contact.all_contacts' , compact('contacts'));
     }
 
-    public function create()
-    {
-        //
-    }
 
     public function store(Request $request)
     {
@@ -44,7 +43,7 @@ class ContactController extends Controller
 
         $contacts->save();
 
-        return redirect()->back();
+        return redirect()->route('dad.dashboard');
     }
 
 

@@ -1,55 +1,73 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+ @include('backend.inc.header')
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
-        </div>
-
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-                  <input type="text" name="daycare_id" id="daycare_id"  placeholder="Daycare ID" required>
+ <div class='photo'><img src={{ asset('/assets/imgs/logo.jpg') }} alt="logo" /></div>
 
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+     <div class='py-5'>
+         <div class='container'>
+             <div class='row'>
+                 <div class='col-lg-7 mx-auto'>
+                     <div class='reg-top'>
+                         Already Have Account ?
+                         <a href='{{ route('login') }}' class='sec-btn'>Login</a>
+                     </div>
+                     <div class='project-name'>Owner register </div>
+                     <div class='tabs-m'>
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
+                     </div>
+                     <form method="POST" action="{{ route('register') }}">
+                        @csrf
+                         <div class='row'>
 
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
+                             <div class='col-md-6'>
+                                 <div class='input-g'>
+                                     <label> Name *</label>
+                                     <input type='text' id="name"
+                                     name="name" />
+                                 </div>
+                             </div>
 
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+                             <div class='col-md-6'>
+                                 <div class='input-g'>
+                                     <label>Daycare Id *</label>
+                                     <input type='number'  name="daycare_id" id="daycare_id"  placeholder="Daycare ID" required>
+                                 </div>
+                             </div>
 
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
+                             <div class='col-12'>
+                                 <div class='input-g'>
+                                     <label>Email *</label>
+                                     <input id="email"
+                                     type="email" name="email"  />
+                                 </div>
+                             </div>
 
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
+                             <div class='col-12'>
+                                 <div class='input-g'>
+                                     <label>Password *</label>
+                                     <input  id="password"
+                                     type="password"
+                                      name="password"  />
+                                 </div>
+                             </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
+                             <div class='col-12'>
+                                 <div class='input-g'>
+                                     <label>Confirm Password *</label>
+                                     <input id="password_confirmation"
+                                     type="password"
+                                    name="password_confirmation"
+                                                          />
+                                 </div>
+                             </div>
 
-            <x-primary-button class="ml-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+                         </div>
+                         <button type='submit' class='form-btn up'>Submit</button>
+                     </form>
+                 </div>
+             </div>
+         </div>
+     </div>
+
+
+   @include('backend.inc.footer')

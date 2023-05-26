@@ -11,7 +11,7 @@ class Daycare extends Model
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $fillable = ['name', 'description', 'location', 'phone_number'];
+    protected $fillable = ['name','id', 'description', 'location', 'phone_number'];
     public $incrementing = false;
     protected $keyType = 'string';
 

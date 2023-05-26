@@ -1,48 +1,63 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-    <form method="POST" action="{{ route('teacher.login') }}">
-        @csrf
-teacher
-        <!-- Email Address -->
-        <div>
+@include('backend.inc.header')
 
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+
+
+    <a href="index.html" class='navbar-brand'>
+        <div class='photo'><img src={{ asset('/assets/imgs/logo.jpg') }} alt="logo" /></div>
+
+      </a>
+
+    <div class='login-sec py-5'>
+        <div class='container'>
+            <div class='row gy-4'>
+                <div class='col-md-6'>
+                    <form method="POST" class='login-form' action="{{ route('teacher.login') }}">
+                        @csrf
+                        <div class='login-img-con'>
+                            <img class='login-img' src={{ asset('/assets/imgs/Icons/teacher.png') }} alt='boss' />
+                        </div>
+                        <h3 class='login-title'>Staff Login</h3>
+
+                        <div class='input-g'>
+                            <label for="email">Email</label>
+                            <input type="email" name="email" id="email" />
+                        </div>
+                        <div class='input-g'>
+                            <label for="password">Password</label>
+                            <input type="password" name="password" id="password" />
+                        </div>
+
+
+                        <button type='submit' class='form-btn up'>Login</button>
+                    </form>
+                </div>
+
+                <div class='col-md-6'>
+                    <div class='login-form mb-4'>
+                        <div class='login-img-con'>
+                            <img class='login-img sm' src={{ asset('/assets/imgs/Icons/boss.png') }} alt='boss' />
+                        </div>
+                        <h3 class='login-title'>Owner Login</h3>
+
+                        <div class='text-center'>
+                            <a href='{{ route('login') }}' class='form-btn up log'>Login In Here</a>
+                        </div>
+                    </div>
+
+                    <div class='login-form'>
+                        <div class='login-img-con'>
+                            <img class='login-img sm' src={{ asset('/assets/imgs/Icons/family.png') }} alt='boss' />
+                        </div>
+                        <h3 class='login-title'>Parent Or Child  Login</h3>
+
+                        <div class='text-center'>
+                            <a href='{{ route('dad.login') }}' class='form-btn up log'>Login In Here</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <!-- Daycare ID -->
+    </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
 
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ml-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ml-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    @include('backend.inc.footer')

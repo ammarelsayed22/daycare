@@ -13,6 +13,8 @@ use Illuminate\View\View;
 use App\Models\Teacher;
 use App\Models\daycare;
 use App\Models\User;
+use App\Models\Gallery;
+use App\Models\Comment;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -23,12 +25,16 @@ class AuthenticatedSessionController extends Controller
     {
         return view('auth.login');
     }
- public function index()
+ public function index(Daycare $daycare)
 {
-    $daycare = daycare::class;
-    $teachers = Teacher::all();
+     $daycareId = auth()->user()->daycare_id;
+        $teachers = Teacher::where('daycare_id' , $daycareId)->get();
+    $gallerys =Gallery::where('daycare_id' , $daycareId)->get();
+    $comments = Comment::where('daycare_id' , $daycareId)->get();
 
-    return view('dashboard', compact('daycare','teachers'));
+
+
+    return view('dashboard', compact('daycare','teachers','comments','gallerys'));
 }
 
 
@@ -73,10 +79,12 @@ public function storeTeacher(Request $request)
         'name' => 'required|string|max:255',
         'email' => 'required|string|email|unique:teachers|max:255',
         'password' => 'required|string|min:8|max:255',
+        'phone_number' => 'required|string|min:8|max:255',
         'image' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
         'daycare_id' => 'required|exists:daycares,id',
         'facebook' => 'nullable|string|max:255',
         'twitter' => 'nullable|string|max:255',
+        'subject' => 'nullable|string|max:255',
         'instagram' => 'nullable|string|max:255',
     ]);
 
@@ -86,20 +94,17 @@ public function storeTeacher(Request $request)
     $daycare_id    = $request->daycare_id;
     $facebook      = $request->facebook;
     $twitter       = $request->twitter;
+    $subject       = $request->subject;
+    $phone_number       = $request->phone_number;
     $instagram     = $request->instagram;
-    $image = $request->file('image');
+     $imageFile = $request->file('image');
+$name_gen = hexdec(uniqid());
+$img_ext = strtolower($imageFile->getClientOriginalExtension());
+$img_name = $name_gen . '.' . $img_ext;
 
-    if ($image) {
-        $name_gen = hexdec(uniqid());
-        $img_ext = strtolower($image->getClientOriginalExtension());
-        $img_name = $name_gen . '.' . $img_ext;
+$upload_location = 'assets/img/teacher/';
+$imageFile->move($upload_location, $img_name);
 
-        $upload_location = 'build/assets/img/';
-        $image_path = $upload_location . $img_name;
-        $image->move($upload_location, $img_name);
-    } else {
-        $image_path = null;
-    }
 
     $teacher = Teacher::create([
         'name' => $name,
@@ -108,8 +113,10 @@ public function storeTeacher(Request $request)
         'daycare_id' => $daycare_id,
         'facebook' => $facebook,
         'twitter' => $twitter,
+        'subject' => $subject,
+        'phone_number' => $phone_number,
         'instagram' => $instagram,
-        'image' => $image_path,
+        'image' => $img_name,
     ]);
 
     return redirect()->route('dashboard')->with('success', 'Teacher added successfully.');
@@ -183,8 +190,25 @@ public function destroyTeacher($id)
     return redirect()->route('auth.teachers.index')->with('success', 'Teacher deleted successfully');
 }
 
+    public function teacherdashboard(Daycare $daycare)
+    {
+$daycareId = Auth::guard('teacher')->user()->daycare_id;
+        $teachers = Teacher::where('daycare_id' , $daycareId)->get();
+    $gallerys =Gallery::where('daycare_id' , $daycareId)->get();
+    $comments = Comment::where('daycare_id' , $daycareId)->get();
 
+
+        return view('backend.teacher.dashboard', compact('teachers', 'gallerys','comments'));
+    }
+    public function indexclassroom()
+    {
+        $classrooms = Classroom::all();
+        return view('classrooms.index', compact('classrooms'));
+    }
 }
+
+
+
 
 
 

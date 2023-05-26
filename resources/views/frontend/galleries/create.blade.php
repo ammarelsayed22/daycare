@@ -1,4 +1,4 @@
-<form action="{{ route('teacher.galleries.store') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('auth.galleries.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <label for="image">Image:</label>
     <input type="file" name="image" id="image">

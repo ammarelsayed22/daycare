@@ -3,20 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classroom;
+use App\Models\Teacher;
+use App\Models\Daycare;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ClassroomController extends Controller
 {
-    public function index()
+    public function index(Daycare $daycare)
     {
-        $classrooms = Classroom::all();
-        return view('classrooms.index', compact('classrooms'));
+        $daycareId = Auth::guard('teacher')->user()->daycare_id;
+        $teachers = Teacher::where('daycare_id' , $daycareId)->get();
+        $classrooms = Classroom::where('daycare_id' , $daycareId)->get();
+        return view('backend.teacher.indexclassroom', compact('classrooms','teachers'));
     }
 
-    public function create()
+    public function create(Daycare $daycare)
     {
-        // Show the form to create a new classroom
-        return view('classrooms.create');
+
+     $daycareId = Auth::guard('teacher')->user()->daycare_id;
+         $teachers = Teacher::where('daycare_id' , $daycareId)->get();
+        return view('backend.teacher.createclassroom');
     }
 
     public function store(Request $request)
@@ -36,14 +43,9 @@ class ClassroomController extends Controller
         $classroom->save();
 
         // Redirect the user to a page showing the created classroom or any other appropriate response
-        return redirect()->route('dashboard', $classroom->id)->with('success', 'Classroom created successfully');
+        return redirect()->route('teacher.classrooms.index', $classroom->id)->with('success', 'Classroom created successfully');
     }
 
-    public function show($id)
-    {
-        $classroom = Classroom::findOrFail($id);
-        return view('classrooms.show', compact('classroom'));
-    }
 
     public function edit($id)
     {
@@ -69,8 +71,7 @@ class ClassroomController extends Controller
         $classroom->teacher_id = $validatedData['teacher_id'];
         $classroom->save();
 
-        // Redirect the user to a page showing the updated classroom or any other appropriate response
-        return redirect()->route('classrooms.show', $classroom->id)->with('success', 'Classroom updated successfully');
+        return redirect()->route('teacher.classrooms.index', $classroom->id)->with('success', 'Classroom updated successfully');
     }
 
     public function destroy($id)
@@ -79,6 +80,6 @@ class ClassroomController extends Controller
         $classroom->delete();
 
         // Redirect the user to a page or any other appropriate response
-        return redirect()->route('classrooms.index')->with('success', 'Classroom deleted successfully');
+        return redirect()->route('teacher.classrooms.index')->with('success', 'Classroom deleted successfully');
     }
 }

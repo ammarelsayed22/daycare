@@ -1,106 +1,85 @@
+@include('backend.inc.header')
 
-<div class="container">
-    <div class="card">
-        <div class="card-header">{{ __('Edit dad') }}</div>
-        <div class="card-body">
-            <form method="POST" action="{{ route('auth.dads.update', $dad->id) }}" enctype="multipart/form-data">
-                @csrf
-                @method('PUT')
-                <div class="form-group row">
-                    <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
-                    <div class="col-md-6">
-                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name', $dad->name) }}" required autofocus>
-                        @error('name')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Email') }}</label>
-                    <div class="col-md-6">
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', $dad->email) }}" required>
-                        @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="facebook" class="col-md-4 col-form-label text-md-right">{{ __('facebook') }}</label>
-                    <div class="col-md-6">
-                        <input id="facebook" type="facebook" class="form-control @error('facebook') is-invalid @enderror" name="facebook" value="{{ old('facebook', $dad->facebook) }}" required>
-                        @error('facebook')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Email') }}</label>
-                    <div class="col-md-6">
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', $dad->email) }}" required>
-                        @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('Email') }}</label>
-                    <div class="col-md-6">
-                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email', $dad->email) }}" required>
-                        @error('email')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-                    <div class="col-md-6">
-                        <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
-                        @error('password')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-                    <div class="col-md-6">
-                        <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <label for="image" class="col-md-4 col-form-label text-md-right">{{ __('Image') }}</label>
-                    <div class="col-md-6">
-                        <input id="image" type="file" class="form-control @error('image') is-invalid @enderror" name="image">
-                        @error('image')
-                            <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
-                        @enderror
-                    </div>
-                </div>
-
-
-
-
-
-
-            <button type="submit" class="btn btn-primary">Update</button>
-        </form>
+<div class="navbar navbar-expand-md text-danger">
+    <div class="container">
+      <a to="/" class='navbar-brand'>
+        <div class='logo'><img src="{{ asset('assets/image/logo.jpg') }} " alt="logo" /></div>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainmenu">
+        <span class="navbar-toggler-icon">
+      </button>
+      @include('backend.inc.admin_navbar')
     </div>
+    </div>
+
+    <div class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="project-name">Edit Dad</div>
+
+                <form method="PUT" action="{{ route('auth.dads.update', $dad->id) }}" enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="tabs-m">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-g">
+                                <label>Name *</label>
+                                <input type="text" id="name" name="name" value="{{ old('name', $dad->name) }}" />
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="input-g">
+                                <label>Email *</label>
+                                <input id="email" type="email" name="email" value="{{ old('email', $dad->email) }}" />
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="input-g">
+                                <label>Password *</label>
+                                <input id="password" type="password" name="password"  />
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="input-g">
+                                <label>Confirm Password *</label>
+                                <input id="password_confirmation" type="password" name="password_confirmation" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="input-g">
+                                <label>Image *</label>
+                                <input type="file" name="image" id="image" accept="image/*">
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-6">
+                            <div class="input-g">
+                                <label>Phone Number</label>
+                                <input type="text" name="phone_number" id="phone_number" placeholder="Phone Number"  value="{{ old('email', $dad->phone_number) }}">
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <button type="submit" class="form-btn up">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+@include('backend.inc.dad_footer')
+
+
+
 
 

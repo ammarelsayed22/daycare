@@ -33,10 +33,11 @@ Route::middleware('guest:teacher')->group(function () {
 
     Route::post('reset-password', [NewPasswordController::class, 'store'])
                 ->name('password.store');
+
+
+
 });
 
-
-   Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
+Route::post('teacher/logout', [AuthenticatedSessionController::class, 'destroy'])
                 ->name('logout');
-
 

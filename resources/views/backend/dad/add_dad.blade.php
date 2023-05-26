@@ -1,88 +1,89 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Create a New Dad</title>
-  <style>
-    .card {
-      background-color: #fff;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      margin-bottom: 20px;
-      width: 400px;
-    }
 
-    .card-header {
-      background-color: #007bff;
-      color: #fff;
-      font-size: 24px;
-      font-weight: bold;
-      padding: 20px;
-      text-align: center;
-    }
+@include('backend.inc.header')
 
-    .card-body {
-      padding: 20px;
-    }
-
-    .form-group {
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      font-weight: bold;
-      margin-bottom: 5px;
-    }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-      border-radius: 4px;
-      border: 1px solid #ccc;
-      box-sizing: border-box;
-      display: block;
-      font-size: 16px;
-      padding: 10px;
-      width: 100%;
-    }
-
-    button[type="submit"] {
-      background-color: #007bff;
-      border: none;
-      border-radius: 4px;
-      color: #fff;
-      cursor: pointer;
-      font-size: 18px;
-      font-weight: bold;
-      padding: 10px 20px;
-      transition: background-color 0.3s ease;
-    }
-
-    button[type="submit"]:hover {
-      background-color: #0069d9;
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <div class="card">
-      <div class="card-header">
-        Create a New Dad
-      </div>
-      <div class="card-body">
-        <form method="POST" action="{{ route('auth.dads.store') }}" enctype="multipart/form-data">
-          @csrf
-          <input type="text" name="name" id="name" placeholder="Dad Name" required>
-          <input type="email" name="email" id="email" placeholder="Dad Email" required>
-          <input type="password" name="password" id="password" placeholder="Password" required>
-          <input type="file" name="image" id="image" accept="image/*">
-          <input type="text" name="phone_number" id="phone_number" placeholder="Phone Number">
-          <input type="text" name="daycare_id" id="daycare_id" placeholder="Daycare ID" required>
-          <button type="submit">Create Dad</button>
-        </form>
-      </div>
+<div class="navbar navbar-expand-md text-danger">
+    <div class="container">
+      <a to="/" class='navbar-brand'>
+        <div class='logo'><img src="{{ asset('assets/image/logo.jpg') }} " alt="logo" /></div>
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainmenu">
+        <span class="navbar-toggler-icon">
+      </button>
+      @include('backend.inc.admin_navbar')
     </div>
-  </header>
-</body>
-</html>
+    </div>
+
+    <div class="py-5">
+        <div class="container">
+            <div class="row">
+                <div class="project-name">Add Dad</div>
+                <form method="POST" action="{{ route('auth.dads.store') }}" enctype="multipart/form-data">
+                    @csrf
+
+                    <div class="tabs-m">
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-g">
+                                <label>Name *</label>
+                                <input type="text" id="name" name="name" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="input-g">
+                                <label>Daycare Id *</label>
+                                <input type="number" name="daycare_id" id="daycare_id" placeholder="Daycare ID" required>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="input-g">
+                                <label>Email *</label>
+                                <input id="email" type="email" name="email" />
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="input-g">
+                                <label>Password *</label>
+                                <input id="password" type="password" name="password" />
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="input-g">
+                                <label>Confirm Password *</label>
+                                <input id="password_confirmation" type="password" name="password_confirmation" />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="input-g">
+                                <label>Image *</label>
+                                <input type="file" name="image" id="image" accept="image/*">
+                            </div>
+                        </div>
+
+
+
+                        <div class="col-md-6">
+                            <div class="input-g">
+                                <label>Phone Number</label>
+                                <input type="text" name="phone_number" id="phone_number" placeholder="Phone Number">
+                            </div>
+                        </div>
+
+
+
+                    </div>
+                    <button type="submit" class="form-btn up">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+@include('backend.inc.dad_footer')
+
+
+

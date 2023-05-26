@@ -6,9 +6,11 @@ use Illuminate\Http\Request;
 
 class PhotoController extends Controller
 {
-     public function index()
+     public function index(Daycare $daycare)
     {
-        $galleries = Gallery::all();
+          $daycareId = auth()->user()->daycare_id;
+          $galleries =Gallery::where('daycare_id' , $daycareId)->get();
+
         return view('frontend.galleries.index', compact('galleries'));
     }
 
@@ -29,7 +31,7 @@ $name_gen = hexdec(uniqid());
 $img_ext = strtolower($imageFile->getClientOriginalExtension());
 $img_name = $name_gen . '.' . $img_ext;
 
-$upload_location = 'assets/img/blog/';
+$upload_location = 'assets/img/gallery/';
 $imageFile->move($upload_location, $img_name);
 
 $gallery = Gallery::create([
@@ -37,7 +39,7 @@ $gallery = Gallery::create([
     'daycare_id' => $daycare_id,
 ]);
 
-return redirect()->route('teacher.galleries.index')->withSuccess('Image added successfully.');
+return redirect()->route('auth.galleries.index')->withSuccess('Image added successfully.');
 
 }  public function destroy($id)
     {
@@ -50,7 +52,7 @@ return redirect()->route('teacher.galleries.index')->withSuccess('Image added su
 
         $gallery->delete();
 
-        return redirect()->route('teacher.galleries.index')->withSuccess('Image deleted successfully.');
+        return redirect()->route('tauth.galleries.index')->withSuccess('Image deleted successfully.');
     }
     }
 

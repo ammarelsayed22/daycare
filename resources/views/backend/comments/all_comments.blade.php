@@ -1,51 +1,55 @@
-@extends('backend.admin')
-@section('content')
-        <h1 class="text-center "><b>The comments</b> </h1>
-        <h2 class="text-center ">count of comments : {{count($comments)}}</h2>
 
-        <div class="col-lg-12">
-            <div class="card card-default">
-                <div class="card-body">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>id</th>
-                                <th>name</th>
-                                <th>email</th>
-                                <th>date</th>
-                                <th>comment</th>
-                                <th>post id</th>
-                                <th>created at</th>
-                                <th>edit</th>
-                                <th>delete</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-
-                            @php
-                                $i = 1;
-                            @endphp
-
-                            @foreach ($comments as $comment)
-                                
-                            <tr>
-                                <td scope="row">{{$i++}}</td>
-                                <td>{{$comment->name}}</td>
-                                <td>{{$comment->email}}</td>
-                                <td>{{$comment->date}}</td>
-                                <td>{{$comment->comment}}</td>
-                                <td>{{$comment->post_id}}</td>
-                                <td>{{$comment->created_at}}</td>
-                                <td><a href="{{ route('dashboard.comments.edit', ['id'=>$comment->id]) }}" class="btn btn-success">edit</a></td>
-                                <td><a href="{{ route('dashboard.comments.destroy' , ['id'=>$comment->id]) }}" class="btn btn-danger">delete</a></td>
-                            </tr>
-                            
-                            @endforeach 
-
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
+@include('backend.inc.header')
+<body>
+  <div class="navbar navbar-expand-md text-danger">
+        <div class="container">
+          <a to="/" class='navbar-brand'>
+            <div class='logo'><img src="{{ asset('assets/image/logo.jpg') }} " alt="logo" /></div>
+          </a>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainmenu">
+            <span class="navbar-toggler-icon" />
+          </button>
+          @include('backend.inc.admin_navbar')
         </div>
-@endsection
+
+  </div>
+
+
+  <div class='testimonials'>
+    <section class="top">
+      <div>
+        <h1> Testimonials</h1>
+        <a href="index.html">Home &gt;</a>
+        <span> testimonials </span>
+      </div>
+     </section>
+  <section class='coment w-100 m-auto'>
+    <div class="container">
+      <h5>We love to hear from our parents!</h5>
+      <h1>Comments From Parents</h1>
+      <p>If you have feedback or words of praise that you would like to share, please submit your review at the bottom of this page.</p>
+
+      <div class='d-sm-flex d-md-flex flex-wrap py-5 w-100 m-auto'>
+        @foreach ($comments as $comment)
+          <div class="comments">
+
+            <div class="comment my-5">
+                    <div class="info">
+                      <div class='text-center'><img src="./assets/imgs/37.png" alt="" /></div>
+                      <h4 class="text-center">{{ $comment->name}}</h4>
+                      <h5 class="text-center">
+                        {{ date('l, h:i A', strtotime($comment->date)) }}
+                    </h5>
+                      <blockquote>{{ $comment->comment}} </blockquote>
+                    </div>
+            </div>
+          </div>@endforeach
+
+
+
+      </div>
+    </div>
+  </section>
+
+        <div>
+            @include('backend.inc.admin_footer')

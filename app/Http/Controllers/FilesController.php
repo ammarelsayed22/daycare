@@ -53,14 +53,34 @@ class FilesController extends Controller
 
         ]);
 
-        return redirect()->route('teacher.files.index')->withSuccess(__('File added successfully.'));
+        return redirect()->route('files.index')->withSuccess(__('File added successfully.'));
     }
-    public function show($filename)
+    public function show($filename, Daycare $daycare)
 {
-    $file = File::where('name', $filename)->firstOrFail();
+    $daycareId = auth()->user()->daycare_id;
+    $file = File::where('daycare_id', $daycareId)->where('name', $filename)->firstOrFail();
     $filePath = public_path('file/' . $filename);
 
     return response()->file($filePath, [
+        'Content-Type' => $file->type,
+        'Content-Length' => $file->size,
+    ]);
+}
+
+public function destroy($id)
+    {
+        $file = File::find($id);
+        $file->delete();
+
+        return redirect()->route('file.index');
+    }
+    public function download($filename)
+{
+    $daycareId = auth()->user()->daycare_id;
+    $file = File::where('daycare_id', $daycareId)->where('name', $filename)->firstOrFail();
+    $filePath = public_path('file/' . $filename);
+
+    return response()->download($filePath, $file->name, [
         'Content-Type' => $file->type,
         'Content-Length' => $file->size,
     ]);

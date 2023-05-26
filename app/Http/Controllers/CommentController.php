@@ -2,20 +2,27 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\comments;
+use App\Models\comment;
 use Illuminate\Http\Request;
 
-class CommentsController extends Controller
+class CommentController extends Controller
 {
 
 
 
     public function index()
     {
-        $comments = comments::all();
+        $comments = comment::all();
 
         return view('backend.comments.all_comments' , compact('comments'));
     }
+    public function create()
+    {
+
+
+        return view('backend.dad.comment');
+    }
+
 
 
     public function store(Request $request)
@@ -27,7 +34,7 @@ class CommentsController extends Controller
 
         $date    = date('Y-m-d');
 
-        $posts = comments::create([
+        $posts = comment::create([
             'name' =>$name,
             'email' =>$email,
             'comment' =>$comment,
@@ -37,20 +44,20 @@ class CommentsController extends Controller
 
         $posts->save();
 
-        return redirect()->back();
+       return redirect()->route('dad.dashboard');
     }
 
 
     public function edit($id)
     {
-        $comments = comments::find($id);
+        $comments = comment::find($id);
         return view('backend.comments.edit_comment' , compact('comments'));
     }
 
 
     public function update(Request $request, $id)
     {
-        $comments = comments::find($id);
+        $comments = comment::find($id);
 
 
         $validated = $request->validate([
@@ -70,7 +77,7 @@ class CommentsController extends Controller
 
     public function destroy($id)
     {
-        $comments = comments::find($id);
+        $comments = comment::find($id);
         $comments->delete();
 
         return redirect()->route('dad.comments.all_comments');

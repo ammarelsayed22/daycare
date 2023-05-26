@@ -4,6 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Dad;
 use App\Models\Daycare;
+use App\Models\Teacher;
+use App\Models\File;
+use App\Models\Event;
+use App\Models\Child;
+use App\Models\Gallery;
+use App\Models\Comment;
+use App\Models\Timetable;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
@@ -36,27 +43,20 @@ public function store(Request $request)
     $phone_number  = $request->phone_number;
     $password      = Hash::make($request->password);
     $daycare_id    = $request->daycare_id;
-    $image = $request->file('image');
+    $imageFile = $request->file('image');
+$name_gen = hexdec(uniqid());
+$img_ext = strtolower($imageFile->getClientOriginalExtension());
+$img_name = $name_gen . '.' . $img_ext;
 
-    if ($image) {
-        $name_gen = hexdec(uniqid());
-        $img_ext = strtolower($image->getClientOriginalExtension());
-        $img_name = $name_gen . '.' . $img_ext;
-
-        $upload_location = 'build/assets/img/';
-        $image_path = $upload_location . $img_name;
-        $image->move($upload_location, $img_name);
-    } else {
-        $image_path = null;
-    }
-
+$upload_location = 'assets/img/dads/';
+$imageFile->move($upload_location, $img_name);
     $dad = Dad::create([
         'name' => $name,
         'email' => $email,
         'password' => $password,
         'daycare_id' => $daycare_id,
          'phone_number' =>$phone_number,
-        'image' => $image_path,
+        'image' => $img_name,
     ]);
 
 
@@ -65,12 +65,14 @@ public function store(Request $request)
 
  public function index(Daycare $daycare)
 {
-        $daycareId = auth()->user()->daycare_id;
-        $dads= Dad::where('daycare_id' , $daycareId)->get();
+       $daycareId = Auth::guard('dad')->user()->daycare_id;
+         $teachers = Teacher::where('daycare_id' , $daycareId)->get();
+    $gallerys =Gallery::where('daycare_id' , $daycareId)->get();
+    $comments = Comment::where('daycare_id' , $daycareId)->get();
+     $dads = Dad::where('daycare_id' , $daycareId)->get();
 
-        return view('backend.dad.indexdad', [
-            'dads' => $dads
-        ]);
+
+           return view('backend.dad.dashboard', compact('dads','teachers','gallerys','comments'));
     }
 
 public function edit($id)
@@ -105,7 +107,7 @@ public function update(Request $request, $id)
     $dad->save();
 
     // Redirect the user to a page showing the updated Dad or any other appropriate response
-    return redirect()->route('dads.show', $dad->id)->with('success', 'Dad updated successfully');
+    return redirect()->route('dads.index')->with('success', 'Dad updated successfully');
 }
 
 public function show($id)
@@ -124,6 +126,79 @@ public function destroy($id)
     // Redirect the user to a page or any other appropriate response
     return redirect()->route('auth.dads.index')->with('success', 'Dad deleted successfully');
 }
+//////////////////file///////////////////
+ public function indexfile()
+    {
+        $files = File::all();
+
+        return view('backend.dad.indexfile', [
+            'files' => $files
+        ]);
+    }
+
+     public function showfile($filename, Daycare $daycare)
+{
+    $daycareId = Auth::guard('dad')->user()->daycare_id;
+    $file = File::where('daycare_id', $daycareId)->where('name', $filename)->firstOrFail();
+    $filePath = public_path('file/' . $filename);
+
+    return response()->file($filePath, [
+        'Content-Type' => $file->type,
+        'Content-Length' => $file->size,
+    ]);
+}
+
+
+ public function downloadfile($filename, Daycare $daycare)
+{
+    $daycareId = Auth::guard('dad')->user()->daycare_id;
+    $file = File::where('daycare_id', $daycareId)->where('name', $filename)->firstOrFail();
+    $filePath = public_path('file/' . $filename);
+
+    return response()->download($filePath, $file->name, [
+        'Content-Type' => $file->type,
+        'Content-Length' => $file->size,
+    ]);
+
+}
+ public function indexgallery( Daycare $daycare)
+    {
+         $daycareId = Auth::guard('dad')->user()->daycare_id;
+         $galleries= Gallery::where('daycare_id' , $daycareId)->get();
+
+        return view('backend.dad.indexgallery', compact('galleries'));
+    }
+     public function indextimetable(Daycare $daycare)
+
+{                   $daycareId = Auth::guard('dad')->user()->daycare_id;
+        $timetableEntries =Timetable::where('daycare_id' , $daycareId)->get();
+
+    return view('backend.dad.indextimetable', compact('timetableEntries'));
+}
+public function indexchild(Daycare $daycare, Dad $dadId)
+{
+    $daycareId = Auth::guard('dad')->user()->daycare_id;
+    $dadId = Auth::guard('dad')->user()->id;
+    $childs = Child::where('daycare_id', $daycareId)
+                  ->where('dad_id', $dadId)
+                  ->firstOrFail();
+
+    return view('backend.dad.indexchild', compact('childs'));
+}
+ public function indexpayment()
+
+{
+    return view('backend.dad.payment');
+}
+ public function indexevent(Daycare $daycare)
+
+    {
+        $daycareId = Auth::guard('dad')->user()->daycare_id;
+          $events =Event::where('daycare_id' , $daycareId)->get();
+
+
+        return view('backend.dad.event', compact('events'));
+    }
 
 }
 
