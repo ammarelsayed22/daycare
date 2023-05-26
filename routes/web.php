@@ -41,7 +41,7 @@ Route::prefix('auth')->name('auth.')->group(function(){
     Route::put('teachers/{id}', [AuthenticatedSessionController::class, 'updateTeacher'])->name('teachers.update');
     Route::get('teachers/{id}', [AuthenticatedSessionController::class, 'show'])->name('teachers.show');
     Route::delete('teachers/{id}', [AuthenticatedSessionController::class, 'destroyTeacher'])->name('teachers.destroy');
-    Route::get('/dads', [DadController::class, 'index'])->name('dads.index');
+    Route::get('/dads', [AuthenticatedSessionController::class, 'indexdad'])->name('dads.index');
     Route::get('/dads/create', [DadController::class, 'create'])->name('dads.create');
     Route::post('/dads', [DadController::class, 'store'])->name('dads.store');
     Route::get('/dads/{id}', [DadController::class, 'show'])->name('dads.show');

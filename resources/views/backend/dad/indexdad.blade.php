@@ -9,7 +9,7 @@
               <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainmenu">
                 <span class="navbar-toggler-icon" />
               </button>
-              @include('backend.inc.teacher_navbar')
+              @include('backend.inc.admin_navbar')
             </div>
 
       </div>
